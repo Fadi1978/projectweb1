@@ -45,6 +45,18 @@ function afficherevenment ($evenment){
             die('Erreur: '.$e->getMessage());
         }	
 	}
+	function afficherEvenmentsTrie(){
+		//$sql="SElECT * From evenment e inner join formationphp.evenment a on e.id= a.id";
+		$sql="SElECT * From evenment order by nbr_invt";
+		$db = config::getConnexion();
+		try{
+		$liste=$db->query($sql);
+		return $liste;
+		}
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }	
+	}
 	function supprimerEvenment($id){
 		$sql="DELETE FROM evenment where id= :id";
 		$db = config::getConnexion();
@@ -123,6 +135,8 @@ try{
         }
 	}
 	*/
+	
+	
 }
 
 ?>

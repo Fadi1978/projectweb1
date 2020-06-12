@@ -6,10 +6,12 @@ function afficherPromotion ($promotion){
 		echo "Date Debut: ".$promotion->getDate_debut()."<br>";
 		echo "Date Fin: ".$promotion->getDate_fin()."<br>";
 		echo "Id categorie: ".$promotion->getId_categorie()."<br>";
+		echo "Nouveau Prix: ".$promotion->getNouv_prix()."<br>";
+
 	}
 	
 	function ajouterPromotion($promotion){
-		$sql="insert into promotion (id_promo,date_debut,date_fin,id_categorie) values (:id_promo, :date_debut,:date_fin,:id_categorie)";
+		$sql="insert into promotion (id_promo,date_debut,date_fin,id_categorie,nouv_prix) values (:id_promo, :date_debut,:date_fin,:id_categorie,:nouv_prix)";
 		$db = config::getConnexion();
 		try{
         $req=$db->prepare($sql);
@@ -18,10 +20,14 @@ function afficherPromotion ($promotion){
         $date_debut=$promotion->getDate_debut();
         $date_fin=$promotion->getDate_fin();
         $id_categorie=$promotion->getId_categorie();
+		$nouv_prix=$promotion->getNouv_prix();
+
 		$req->bindValue(':id_promo',$id_promo);
 		$req->bindValue(':date_debut',$date_debut);
 		$req->bindValue(':date_fin',$date_fin);
 		$req->bindValue(':id_categorie',$id_categorie);
+		$req->bindValue(':nouv_prix',$nouv_prix);
+
 		
             $req->execute();
            
@@ -60,7 +66,7 @@ function afficherPromotion ($promotion){
 	
 	
 	function modifierPromotion($promotion,$id_promo){
-		$sql="UPDATE promotion SET id_promo=:id_promo, date_debut=:date_debut,date_fin=:date_fin,id_categorie=:id_categorie WHERE id_promo=:id_promo";
+		$sql="UPDATE promotion SET id_promo=:id_promo, date_debut=:date_debut,date_fin=:date_fin,id_categorie=:id_categorie,nouv_prix=:nouv_prix WHERE id_promo=:id_promo";
 		
 		$db = config::getConnexion();
 		//$db->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
@@ -70,12 +76,16 @@ try{
         $date_debut=$promotion->getDate_debut();
         $date_fin=$promotion->getDate_fin();
         $id_categorie=$promotion->getId_categorie();
-		$datas = array(':id_promoo'=>$id_promoo, ':id_promo'=>$id_promo, ':date_debut'=>$date_debut,':date_fin'=>$date_fin,':id_categorie'=>$id_categorie);
+		 $nouv_prix=$promotion->getNouv_prix();
+
+		$datas = array(':id_promoo'=>$id_promoo, ':id_promo'=>$id_promo, ':date_debut'=>$date_debut,':date_fin'=>$date_fin,':id_categorie'=>$id_categorie,':nouv_prix'=>$nouv_prix);
 		$req->bindValue(':id_promoo',$id_promoo);
 		$req->bindValue(':id_promo',$id_promo);
 		$req->bindValue(':date_debut',$date_debut);
 		$req->bindValue(':date_fin',$date_fin);
 		$req->bindValue(':id_categorie',$id_categorie);
+				$req->bindValue(':nouv_prix',$nouv_prix);
+
 		
 		
             $s=$req->execute();
@@ -100,6 +110,7 @@ try{
             die('Erreur: '.$e->getMessage());
         }
 	}
+	
 	
 }
 	?>
